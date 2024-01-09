@@ -1,0 +1,228 @@
+<div class="container">
+  <section class="title-container mt-3">
+    <h4>Consultar Clientes</h4>
+  </section>
+  <form
+    class="form-group mt-3 filters"
+    [formGroup]="filterClients"
+    (ngSubmit)="getClients()"
+  >
+    <div class="row">
+      <div class="col-3">
+        <label class="form-label" for="firstName">Primer Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="firstName"
+          id="firstName"
+        />
+      </div>
+      <div class="col-3">
+        <label class="form-label" for="otherNames">Segundo Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="otherNames"
+          id="otherNames"
+        />
+      </div>
+      <div class="col-3">
+        <label class="form-label" for="surname">Primer Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="surname"
+          id="surname"
+        />
+      </div>
+      <div class="col-3">
+        <label class="form-label" for="secondSurname">Segundo Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="secondSurname"
+          id="secondSurname"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <label class="form-label" for="identificationType"
+          >Tipo Identificación</label
+        >
+        <select
+          class="form-control"
+          formControlName="identificationType"
+          id="identificationType"
+        >
+          <option value="" disabled>SELECCIONE TIPO IDENTIFICACION</option>
+          <option
+            *ngFor="let identificationType of identificationTypes"
+            [ngValue]="identificationType.identificationTypeId"
+          >
+            {{ identificationType.identificationTypeName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-3">
+        <label class="form-label" for="identificationNumber"
+          >Número Identificación</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="identificationNumber"
+          id="identificationNumber"
+        />
+      </div>
+      <div class="col-3">
+        <label class="form-label" for="dealerId">Concesionario</label>
+        <select class="form-control" formControlName="dealerId" id="dealerId">
+          <option value="" disabled>SELECCIONE CONCESIONARIO</option>
+          <option
+            *ngFor="let dealerTemp of dealerList"
+            [ngValue]="dealerTemp.code"
+          >
+            {{ dealerTemp.dealerName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-3">
+        <label class="form-label" for="localityID">Localidad</label>
+        <select
+          class="form-control"
+          formControlName="localityID"
+          id="localityID"
+        >
+          <option value="" disabled>SELECCIONE DEPARTAMENTO</option>
+          <option
+            *ngFor="let localityTemp of localities"
+            [ngValue]="localityTemp.code"
+          >
+            {{ localityTemp.department }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <label class="form-label" for="state">Estado</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="state"
+          id="state"
+        />
+      </div>
+      <div class="col-9 d-flex align-items-center justify-content-end">
+        <button type="submit" class="btn btn-primary col-3">
+          Filtrar Clientes
+        </button>
+      </div>
+    </div>
+  </form>
+  <section class="row">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Primer Nombre</th>
+          <th scope="col">Segundo Nombres</th>
+          <th scope="col">Primer Apellido</th>
+          <th scope="col">Segundo Apellido</th>
+          <th scope="col">Tipo Identificación</th>
+          <th scope="col">Número Identificación</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let clientTemp of clients | paginate : config">
+          <td class="email">{{ clientTemp.firstName }}</td>
+          <td class="email">{{ clientTemp.secondName }}</td>
+          <td class="email">{{ clientTemp.firstSurname }}</td>
+          <td class="email">{{ clientTemp.secondSurname }}</td>
+          <td class="email">{{ clientTemp.identificationPK?.documentType }}</td>
+          <td class="email">{{ clientTemp.identificationPK?.document }}</td>
+          <td class="email">{{ clientTemp.state }}</td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button
+                type="button"
+                class="btn bg-none"
+                (click)="goToCreate(true, clientTemp)"
+              >
+                <img
+                  src="assets/icons/pen-solid.svg"
+                  class="align-middle"
+                  width="22"
+                  height="21"
+                  alt="icon search"
+                />
+              </button>
+              <button
+                data-toggle="modal"
+                data-target="#modalSubmit"
+                type="button"
+                class="btn bg-none"
+                (click)="deleteEmployee(clientTemp)"
+              >
+                <img
+                  src="assets/icons/trash-solid.svg"
+                  class="align-middle"
+                  width="22"
+                  height="21"
+                  alt="icon search"
+                />
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+<pagination-controls
+  [maxSize]="maxSize"
+  [directionLinks]="directionLinks"
+  [autoHide]="autoHide"
+  [responsive]="responsive"
+  [previousLabel]="labels.previousLabel"
+  [nextLabel]="labels.nextLabel"
+  [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+  [screenReaderPageLabel]="labels.screenReaderPageLabel"
+  [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+  (pageChange)="onPageChange($event)"
+></pagination-controls>
+
+<div
+  class="modal fade"
+  id="modalSubmit"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalSubmitLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body center">
+        <h4>{{ messageResponse }}</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdOpacity="0.2"
+  bdColor="rgb(0, 0, 0, 0.6)"
+  color="rgba(28, 190, 81, 1)"
+  [fullScreen]="true"
+>
+  <p style="color: rgb(255, 255, 255); padding-top: 20px !important">
+    Espere por favor...
+  </p>
+</ngx-spinner>

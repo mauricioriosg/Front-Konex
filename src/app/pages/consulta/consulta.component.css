@@ -1,0 +1,49 @@
+.title-container {
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: nowrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+td {
+    max-width: 80px;
+    text-align: center;
+}
+
+.email {
+    overflow: hidden;
+}
+
+.email:hover {
+    overflow: auto;
+}
+
+.filters {
+    border: 2px solid cadetblue;
+    padding: 10px;
+}

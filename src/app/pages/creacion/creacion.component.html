@@ -1,0 +1,354 @@
+<div class="container">
+  <form class="m-2" [formGroup]="createClient" (ngSubmit)="onSubmit()">
+    <div class="text-container">
+      <h1 *ngIf="!isEdit; else title">Registrar Clientes</h1>
+      <ng-template #title>
+        <h1>Editar Cliente</h1>
+      </ng-template>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <label for="firstSurname" class="form-label"
+          >Primer Apellido <i class="text-danger">*</i></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="firstSurname"
+          formControlName="firstSurname"
+          [ngClass]="{
+            'is-invalid': f['firstSurname'].errors && f['firstSurname'].touched
+          }"
+          maxlength="20"
+          pattern="[A-Z ]{1,}"
+        />
+        <div
+          *ngIf="f['firstSurname'].errors && f['firstSurname'].touched"
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="
+              f['firstSurname'].errors['required'] && f['firstSurname'].touched
+            "
+          >
+            Primer Apellido es requerido
+          </div>
+          <div
+            *ngIf="
+              f['firstSurname'].errors['pattern'] && f['firstSurname'].touched
+            "
+          >
+            Primer apellido solo permite mayúsculas y no permite cáracteres
+            especiales
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <label for="secondSurname" class="form-label"
+          >Segundo Apellido <i class="text-danger">*</i></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="secondSurname"
+          formControlName="secondSurname"
+          [ngClass]="{
+            'is-invalid':
+              f['secondSurname'].errors && f['secondSurname'].touched
+          }"
+          maxlength="20"
+          pattern="[A-Z ]{1,}"
+        />
+        <div
+          *ngIf="f['secondSurname'].errors && f['secondSurname'].touched"
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="
+              f['secondSurname'].errors['required'] &&
+              f['secondSurname'].touched
+            "
+          >
+            Segundo Apellido es requerido
+          </div>
+          <div
+            *ngIf="
+              f['secondSurname'].errors['pattern'] && f['secondSurname'].touched
+            "
+          >
+            Segundo apellido solo permite mayúsculas y no permite cáracteres
+            especiales
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <label for="firstName" class="form-label"
+          >Primer Nombre <i class="text-danger">*</i></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="firstName"
+          [ngClass]="{
+            'is-invalid': f['firstName'].errors && f['firstName'].touched
+          }"
+          maxlength="20"
+          pattern="[A-Z ]{1,}"
+        />
+        <div
+          *ngIf="f['firstName'].errors && f['firstName'].touched"
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="f['firstName'].errors['required'] && f['firstName'].touched"
+          >
+            Primer nombre es requerido
+          </div>
+          <div
+            *ngIf="f['firstName'].errors['pattern'] && f['firstName'].touched"
+          >
+            Primer nombre solo permite mayúsculas y no permite cáracteres
+            especiales
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <label for="secondName" class="form-label">Segundo Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          id="secondName"
+          formControlName="secondName"
+          [ngClass]="{
+            'is-invalid':
+              f['secondName'].errors &&
+              f['secondName'].errors['pattern'] &&
+              f['secondName'].touched
+          }"
+          maxlength="50"
+          pattern="[A-Z ]{1,}"
+        />
+        <div
+          *ngIf="f['secondName'].errors && f['secondName'].touched"
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="f['secondName'].errors['pattern'] && f['secondName'].touched"
+          >
+            Segundo nombres solo permite mayúsculas y no permite cáracteres
+            especiales
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <label for="identificationType" class="form-label"
+          >Tipos Identificacion</label
+        >
+        <select
+          id="identificationType"
+          class="form-control"
+          formControlName="identificationType"
+        >
+          <option value="" disabled>SELECCIONE TIPO IDENTIFICACION</option>
+          <option
+            *ngFor="let identificationType of identificationTypes"
+            [ngValue]="identificationType.identificationTypeId"
+          >
+            {{ identificationType.identificationTypeName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-4">
+        <label for="identificationNumber" class="form-label"
+          >Numero de Identificacion</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="identificationNumber"
+          formControlName="identificationNumber"
+          [ngClass]="{
+            'is-invalid':
+              f['identificationNumber'].errors &&
+              f['identificationNumber'].touched
+          }"
+          maxlength="20"
+          pattern="[a-zA-Z0-9-]{1,}"
+        />
+        <div
+          *ngIf="
+            f['identificationNumber'].errors &&
+            f['identificationNumber'].touched
+          "
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="
+              f['identificationNumber'].errors['pattern'] &&
+              f['identificationNumber'].touched
+            "
+          >
+            Numero de Identificacion no permite espacios ni caracteres
+            especiales a excepcion del signo "-"
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <label for="localityID" class="form-label"
+          >Concesionario <i class="text-danger">*</i></label
+        >
+        <select
+          id="localityID"
+          class="form-control"
+          formControlName="dealerId"
+          [ngClass]="{
+            'is-invalid': f['localityID'].errors && f['localityID'].touched
+          }"
+        >
+          <option value="" disabled>SELECCIONE CONCESIONARIO</option>
+          <option
+            *ngFor="let dealerTemp of dealerList"
+            [ngValue]="dealerTemp.code"
+          >
+            {{ dealerTemp.dealerName }}
+          </option>
+        </select>
+        <div
+          *ngIf="f['localityID'].errors && f['localityID'].touched"
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="
+              f['localityID'].errors['required'] && f['localityID'].touched
+            "
+          >
+            Concesionario del cliente es requerido
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <label for="localityID" class="form-label"
+          >Localidad <i class="text-danger">*</i></label
+        >
+        <select
+          id="localityID"
+          class="form-control"
+          formControlName="localityID"
+          [ngClass]="{
+            'is-invalid': f['localityID'].errors && f['localityID'].touched
+          }"
+        >
+          <option value="" disabled>SELECCIONE DEPARTAMENTO</option>
+          <option
+            *ngFor="let localityTemp of localities"
+            [ngValue]="localityTemp.code"
+          >
+            {{ localityTemp.department }}
+          </option>
+        </select>
+        <div
+          *ngIf="f['localityID'].errors && f['localityID'].touched"
+          class="invalid-feedback mb-2"
+        >
+          <div
+            *ngIf="
+              f['localityID'].errors['required'] && f['localityID'].touched
+            "
+          >
+            Localidad del cliente es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <label for="state" class="form-label">Estado</label>
+        <input
+          type="text"
+          class="form-control"
+          id="state"
+          formControlName="state"
+        />
+      </div>
+      <div class="col-4">
+        <label for="registrationDate" class="form-label"
+          >Fecha y hora de registro</label
+        >
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="registrationDate"
+          formControlName="registrationDate"
+        />
+      </div>
+      <div *ngIf="isEdit && clientEdit.modificationDate" class="col-4">
+        <label for="modificationDate" class="form-label"
+          >Fecha y hora de modificación</label
+        >
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="modificationDate"
+          formControlName="modificationDate"
+        />
+      </div>
+    </div>
+    <div class="buttons-container mt-2">
+      <button
+        data-toggle="modal"
+        data-target="#modalSubmit"
+        [disabled]="createClient.invalid"
+        type="submit"
+        class="btn btn-primary"
+      >
+        Guardar
+      </button>
+      <button type="button" class="btn btn-secundary" (click)="goToCancel()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
+
+<div
+  class="modal fade"
+  id="modalSubmit"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalSubmitLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body center">
+        <h4>{{ messageResponse }}</h4>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="goToConsulta()"
+          data-dismiss="modal"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdOpacity="0.2"
+  bdColor="rgb(0, 0, 0, 0.6)"
+  color="rgba(28, 190, 81, 1)"
+  [fullScreen]="true"
+>
+  <p style="color: rgb(255, 255, 255); padding-top: 20px !important">
+    Espere por favor...
+  </p>
+</ngx-spinner>
